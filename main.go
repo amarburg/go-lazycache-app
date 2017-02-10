@@ -4,11 +4,12 @@ import (
 	"flag"
 	kitlog "github.com/go-kit/kit/log"
 	"os"
+	"github.com/amarburg/go-lazycache"
 )
 
 var OOIRawDataRootURL = "https://rawdata.oceanobservatories.org/files/"
 
-func init() {
+func main() {
 
 	var (
 		port          = flag.Int("port", 5000, "Network port to listen on (default: 5000)")
@@ -20,21 +21,13 @@ func init() {
 
 	defaultLogger := kitlog.NewLogfmtLogger(kitlog.NewSyncWriter(os.Stderr))
 
-
-	//config,err := LoadLazyCacheConfig( *configFileFlag )
-
-	// if err != nil {
-	//   fmt.Printf("Error parsing config: %s\n", err.Error() )
-	//   os.Exit(-1)
-	// }
-
 	//fmt.Println(config)
-	ConfigureImageStore(*image_store, *google_bucket, defaultLogger)
+	lazycache.ConfigureImageStore(*image_store, *google_bucket, defaultLogger)
 
-	server := StartLazycacheServer(*bind, *port)
+	server := lazycache.StartLazycacheServer(*bind, *port)
 	defer server.Stop()
 
-	AddMirror(OOIRawDataRootURL)
+	lazycache.AddMirror(OOIRawDataRootURL)
 
 	server.Wait()
 }
