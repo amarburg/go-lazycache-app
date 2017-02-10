@@ -1,0 +1,32 @@
+box: amarburg/golang-ffmpeg:wheezy-1.8
+
+build:
+  steps:
+    - setup-go-workspace:
+        package-dir: github.com/amarburg/go-lazycache-app
+
+    # Gets the dependencies
+    - script:
+        name: go get
+        code: |
+          go get -t .
+
+    # Build the project
+    - script:
+        name: go build
+        code: |
+          go build
+
+    # Test the project
+    # - script:
+    #     name: Run integration tests
+    #     code: |
+    #       go test -tags integration
+
+trigger-deploy:
+  ## Triggers the lazycache-deploy/build pipeline
+  steps:
+    - amarburg/trigger-build:
+      token: $WERCKER_BEARER_TOKEN
+      pipeline-id: 58813bb5bb0e020100e9525e
+      message: Build triggered by deploy-lazycache commit $WERCKER_GIT_COMMIT
