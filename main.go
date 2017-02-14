@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"github.com/amarburg/go-stoppable-http-server"
 	"fmt"
+	"strings"
 )
 
 var OOIRawDataRootURL = "https://rawdata.oceanobservatories.org/files/"
@@ -53,6 +54,7 @@ func main() {
 
 	viper.SetEnvPrefix("lazycache")
 	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer( strings.NewReplacer(".", "_") )
 
 	// var (
 	// 	bindFlag          = flag.String("bind", "0.0.0.0", "Network interface to bind to (defaults to 0.0.0.0)")
@@ -62,7 +64,7 @@ func main() {
 	flag.Int("port", 8080, "Network port to listen on (default: 8080)")
 	flag.String("bind", "0.0.0.0", "Network interface to bind to (defaults to 0.0.0.0)")
 	flag.String("image-store", "", "Type of image store (none, google)")
-	flag.String("image-store-bucket", "", "Bucket used for Google image store")
+	flag.String("image-store-bucket", "camhd-image-cache", "Bucket used for Google image store")
 
 	viper.BindPFlag("port", flag.Lookup("port"))
 	viper.BindPFlag("bind", flag.Lookup("bind"))
