@@ -54,6 +54,7 @@ func main() {
 
 	viper.SetEnvPrefix("lazycache")
 	viper.AutomaticEnv()
+	// Convert '.' to '_' in configuration variable names
 	viper.SetEnvKeyReplacer( strings.NewReplacer(".", "_") )
 
 	// var (
@@ -61,7 +62,7 @@ func main() {
 	// 	ImageStoreFlag   = flag.String("image-store", "", "Type of image store (none, google)")
 	// 	ImageBucketFlag = flag.String("image-store-bucket", "", "Bucket used for Google image store")
 	// )
-	flag.Int("port", 8080, "Network port to listen on (default: 8080)")
+	flag.Int("port", 80, "Network port to listen on (default: 8080)")
 	flag.String("bind", "0.0.0.0", "Network interface to bind to (defaults to 0.0.0.0)")
 	flag.String("image-store", "", "Type of image store (none, google)")
 	flag.String("image-store-bucket", "camhd-image-cache", "Bucket used for Google image store")

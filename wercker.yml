@@ -17,16 +17,22 @@ build:
         code: |
           go build
 
-    # Test the project
-    # - script:
-    #     name: Run integration tests
-    #     code: |
-    #       go test -tags integration
+    - internal/docker-push:
+      username: _json_key
+      password: $GCR_JSON_KEY_FILE
+      repository: gcr.io/smiling-gasket-155322/lazycache-deploy
+      registry: https://gcr.io
+      entrypoint: /root/go/bin/go-lazycache-app
+      ports: "80"
+      tag: $WERCKER_GIT_COMMIT latest $WERCKER_GIT_BRANCH
+      working-dir: $WERCKER_ROOT
 
-trigger-deploy:
-  ## Triggers the lazycache-deploy/build pipeline
-  steps:
-    - amarburg/trigger-build:
-      token: $WERCKER_BEARER_TOKEN
-      pipeline-id: 58813bb5bb0e020100e9525e
-      message: Build triggered by deploy-lazycache commit $WERCKER_GIT_COMMIT
+    # Push completed builds to Docker hub
+    - internal/docker-push:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASSWORD
+        repository: amarburg/lazycache-deploy
+        entrypoint: /root/go/bin/go-lazycache-app
+        ports: "80"
+        tag: $WERCKER_GIT_COMMIT latest $WERCKER_GIT_BRANCH
+        working-dir: $WERCKER_ROOT
