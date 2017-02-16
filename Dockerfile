@@ -3,6 +3,7 @@ FROM amarburg/golang-ffmpeg:wheezy-1.8
 
 ## Ideally this is cache busting...
 
+COPY main.go $GOPATH/src/github/amarburg/go-lazycache-app/
 
 RUN go get github.com/amarburg/go-lazycache-app
 RUN go install github.com/amarburg/go-lazycache-app
