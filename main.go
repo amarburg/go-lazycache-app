@@ -12,6 +12,7 @@ import (
 	"strings"
 )
 
+
 var OOIRawDataRootURL = "https://rawdata.oceanobservatories.org/files/"
 
 
