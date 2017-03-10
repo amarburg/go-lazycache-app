@@ -17,7 +17,8 @@ func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer
 
 	lazycache.RegisterDefaultHandlers()
 
-	lazycache.DefaultLogger.Log("msg",fmt.Sprintf("Listening on http://%s:%d/",bind, port))
+	msg := fmt.Sprintf("Listening on http://%s:%d/",bind, port)
+	lazycache.DefaultLogger.Log("msg", msg)
 
 	server := stoppable_http_server.StartServer(func(config *stoppable_http_server.HttpConfig) {
 		config.Host = bind
@@ -30,7 +31,7 @@ func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer
 func main() {
 	lazycache.ViperConfiguration()
 
-	lazycache.ConfigureImageStoreFromViper( lazycache.DefaultLogger )
+	lazycache.ConfigureImageStoreFromViper( )
 	lazycache.AddMirror(OOIRawDataRootURL)
 
 	server := StartLazycacheServer(viper.GetString("bind"), viper.GetInt("port") )
