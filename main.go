@@ -15,8 +15,6 @@ var OOIRawDataRootURL = "https://rawdata.oceanobservatories.org/files/"
 func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer {
 	http.DefaultServeMux = http.NewServeMux()
 
-	lazycache.RegisterDefaultHandlers()
-
 	msg := fmt.Sprintf("Listening on http://%s:%d/",bind, port)
 	lazycache.DefaultLogger.Log("msg", msg)
 
@@ -31,11 +29,13 @@ func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer
 func main() {
 	lazycache.ViperConfiguration()
 
-	lazycache.ConfigureImageStoreFromViper( )
-	lazycache.AddMirror(OOIRawDataRootURL)
+	lazycache.ConfigureImageStoreFromViper()
 
 	server := StartLazycacheServer(viper.GetString("bind"), viper.GetInt("port") )
 	defer server.Stop()
+
+	lazycache.RegisterDefaultHandlers()
+	lazycache.AddMirror(OOIRawDataRootURL)
 
 	server.Wait()
 }

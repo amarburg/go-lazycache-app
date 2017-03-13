@@ -7,6 +7,8 @@
 #   end
 # end
 
+task :default => :build
+
 task :build do
   sh *%w( go build )
 end
