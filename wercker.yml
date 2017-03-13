@@ -11,6 +11,8 @@ build:
         code: |
           go get -t .
 
+    - wercker/golint
+
     # Build the project
     - script:
         name: go build
