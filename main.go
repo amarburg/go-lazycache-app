@@ -26,16 +26,22 @@ func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer
 	return server
 }
 
-func main() {
-	lazycache.ViperConfiguration()
-
-	lazycache.ConfigureImageStoreFromViper()
-
-	server := StartLazycacheServer(viper.GetString("bind"), viper.GetInt("port") )
-	defer server.Stop()
+func RunOOIServer( bind string, port int ) (*stoppable_http_server.SLServer) {
+	server := StartLazycacheServer( bind, port )
 
 	lazycache.RegisterDefaultHandlers()
 	lazycache.AddMirror(OOIRawDataRootURL)
 
+	return server
+}
+
+
+func main() {
+	lazycache.ViperConfiguration()
+	lazycache.ConfigureImageStoreFromViper()
+
+	server := RunOOIServer( viper.GetString("bind"), viper.GetInt("port") )
+	
+	defer server.Stop()
 	server.Wait()
 }
