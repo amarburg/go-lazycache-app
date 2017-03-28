@@ -7,7 +7,7 @@
 #   end
 # end
 
-task :default => :build
+task :default => :test
 
 task :build do
   sh(*%w( go build ))
@@ -17,45 +17,49 @@ task :test => :build do
   sh(*%w( go test -tags integration ))
 end
 
-task :run_local => :build do
-  sh *%w( ./go-lazycache-app
-  --port 8080
-  --bind 127.0.0.1 )
-end
+namespace :run do
 
-task :run_google => :build do
-  sh(*%w( ./go-lazycache-app
+  task :local => :build do
+    sh *%w( ./go-lazycache-app
+    --port 8080
+    --bind 127.0.0.1 )
+  end
+
+  task :google_store => :build do
+    sh(*%w( ./go-lazycache-app
             --port 8080
             --image-store google
-            --image-store-bucket ooi-camhd-analytics
+            --image-store-bucket images-ooi-camhd-analytics
             --bind 127.0.0.1 ))
-end
+  end
 
-tmp_image_store = '/tmp/image_store'
+  tmp_image_store = '/tmp/image_store'
 
-task :run_local_store => :build do
-  mkdir(tmp_image_store) unless FileTest.directory? tmp_image_store
+  task :local_store => :build do
+    mkdir(tmp_image_store) unless FileTest.directory? tmp_image_store
 
-  sh(*%W( ./go-lazycache-app
+    sh(*%W( ./go-lazycache-app
             --port 8080
             --image-store local
             --image-local-root #{tmp_image_store}
             --image-url-root file://#{tmp_image_store}
             --bind 127.0.0.1 ))
-end
+  end
 
-task :run_local_redis => :build do
-  mkdir(tmp_image_store) unless FileTest.directory? tmp_image_store
+  task :local_redis => :build do
+    mkdir(tmp_image_store) unless FileTest.directory? tmp_image_store
 
-  sh(*%W( ./go-lazycache-app
+    sh "./go-lazycache-app
             --port 8080
             --quicktime-store redis
             --directory-store redis
             --image-store local
             --image-local-root #{tmp_image_store}
             --image-url-root file://#{tmp_image_store}
-            --bind 127.0.0.1 )
-end)
+            --bind 127.0.0.1"
+  end
+
+end
 
 
 namespace :docker do
@@ -79,5 +83,14 @@ namespace :docker do
 
   end
 
+end
+
+
+# Tasks for
+namespace :gs do
+
+  task :clear_cache do
+    sh "gsutil rm -r gs://camhd-app-dev.appspot.com/**"
+  end
 
 end
