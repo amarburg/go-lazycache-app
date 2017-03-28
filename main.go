@@ -40,8 +40,9 @@ func main() {
 	lazycache.ViperConfiguration()
 	lazycache.ConfigureFromViper()
 
-
 	server := RunOOIServer( viper.GetString("bind"), viper.GetInt("port") )
+
+	http.HandleFunc("/_ah/health", healthCheckHandler)
 
 	defer server.Stop()
 	server.Wait()
