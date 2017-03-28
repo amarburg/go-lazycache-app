@@ -50,3 +50,6 @@ func TestOOIRoot(t *testing.T) {
     t.Errorf("Expected Path=\"/\", got: %s", rootmap["Path"])
   }
 }
+
+
+// TODO.  Test image decoding
