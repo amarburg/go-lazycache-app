@@ -37,7 +37,6 @@ func RunOOIServer( bind string, port int ) (*stoppable_http_server.SLServer) {
 
 
 func main() {
-	lazycache.ViperConfiguration()
 	lazycache.ConfigureFromViper()
 
 	server := RunOOIServer( viper.GetString("bind"), viper.GetInt("port") )
