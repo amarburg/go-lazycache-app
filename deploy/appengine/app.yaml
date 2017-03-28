@@ -4,7 +4,7 @@ service: default
 
 env_variables:
   LAZYCACHE_IMAGESTORE: google
-  LAZYCACHE_IMAGESTORE_BUCKET: camhd-app-dev.appspot.com
+  LAZYCACHE_IMAGESTORE_BUCKET: images.camhd-app-dev.appspot.com
 
 skip_files:
   - main.go
