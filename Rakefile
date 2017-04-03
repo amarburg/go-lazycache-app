@@ -49,13 +49,14 @@ namespace :run do
   task :local_redis => :build do
     mkdir(tmp_image_store) unless FileTest.directory? tmp_image_store
 
-    sh "./go-lazycache-app
-            --port 8080
-            --quicktime-store redis
-            --directory-store redis
-            --image-store local
-            --image-local-root #{tmp_image_store}
-            --image-url-root file://#{tmp_image_store}
+#            --quicktime-store redis \
+
+    sh "./go-lazycache-app \
+            --port 8080 \
+            --directory-store redis \
+            --image-store local \
+            --image-local-root #{tmp_image_store} \
+            --image-url-root file://#{tmp_image_store} \
             --bind 127.0.0.1"
   end
 
@@ -90,7 +91,7 @@ end
 namespace :gs do
 
   task :clear_cache do
-    sh "gsutil rm -r gs://camhd-app-dev.appspot.com/**"
+    sh "gsutil -m rm -r gs://camhd-app-dev.appspot.com/**"
   end
 
 end
