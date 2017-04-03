@@ -13,7 +13,7 @@ resources:
   memory_gb: 2
 
 health_check:
-  enable_health_check: False
+  enable_health_check: True
 
 automatic_scaling:
   min_num_instances: 1
