@@ -14,7 +14,7 @@ VOLUME ["/data"]
 ENV LAZYCACHE_PORT=8080 \
     LAZYCACHE_IMAGESTORE=local  \
     LAZYCACHE_IMAGESTORE_LOCALROOT=/srv/image_store \
-    LAZYCACHE_IMAGESTORE_URLROOT=file:///tmp/image_store
+    LAZYCACHE_IMAGESTORE_URLROOT=http://localhost:7082/
 
 ## Strangely, it's installing the binary to $GOPATH
 CMD $GOPATH/go-lazycache-app
