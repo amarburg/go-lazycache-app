@@ -21,7 +21,7 @@ namespace :run do
 
   task :local => :build do
     sh *%w( ./go-lazycache-app
-    --port 8080
+    --port 7080
     --bind 127.0.0.1 )
   end
 
@@ -68,17 +68,18 @@ namespace :docker do
   namespace :local do
     tag = "lazycache-app-local:latest"
 
-    task :build => "test" do
-      sh(*%W( docker build --no-cache --tag #{tag} . ))
+    task :build do #=> "test" do
+      sh(*%W( docker build --tag #{tag} . ))
     end
 
     task :run => :build do
       sh(*%W( docker run --rm --attach STDOUT --attach STDERR
-      --publish 8080:8080
+      --publish 7080:8080
       --env LAZYCACHE_IMAGESTORE=local
       --env LAZYCACHE_IMAGESTORE_LOCALROOT=/srv/image_store
       --env LAZYCACHE_IMAGESTORE_URLROOT=file:///tmp/image_store
-      --volume /tmp/image_store:/srv/image_store
+      --volume /data:/data
+      --volume /home/amarburg/src/image_store:/srv/image_store
       #{tag} ))
     end
 
