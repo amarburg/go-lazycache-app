@@ -39,7 +39,7 @@ func RunOOIServer( bind string, port int ) (*stoppable_http_server.SLServer) {
 		panic(fmt.Sprintf("Error opening Local File Source: %s", err.Error()))
 	}
 
-	lazycache.MakeRootNode(fs, fmt.Sprintf("/v1/berna%s",fs.Path) )
+	lazycache.MakeRootNode(fs, fmt.Sprintf("/v1/berna%s/",fs.Path) )
 
 	return server
 }
