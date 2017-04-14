@@ -15,7 +15,7 @@ services:
     ports:
     - "7081:80"
     volumes:
-      - /data:/srv/data:ro
+      - /home/amarburg/data:/srv/data:ro
   nginx-image-store:
     build: nginx-image-store/
     ports:

@@ -41,8 +41,8 @@ namespace :run do
     sh(*%W( ./go-lazycache-app
             --port 8080
             --image-store local
-            --image-local-root #{tmp_image_store}
-            --image-url-root file://#{tmp_image_store}
+            --image-store-root #{tmp_image_store}
+            --image-store-url http://localhost:7082/
             --bind 127.0.0.1 ))
   end
 
