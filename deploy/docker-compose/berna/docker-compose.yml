@@ -1,24 +1,24 @@
 version: '3'
 services:
   lazycache:
-    build: lazycache/
+    build: ../lazycache/
     ports:
       - "7080:8080"
     volumes:
       - /data:/data
-      - /home/amarburg/src/image_store:/srv/image_store
+      - /tmp/image_store:/srv/image_store
     links:
-      - nginx-data
-      - nginx-image-store
-  nginx-data:
-    build: nginx-data/
+      - nginx_data
+      - nginx_image_store
+  nginx_data:
+    build: ../nginx_data/
     ports:
     - "7081:80"
     volumes:
-      - /home/amarburg/data:/srv/data:ro
-  nginx-image-store:
-    build: nginx-image-store/
+      - /data:/srv/data/:ro
+  nginx_image_store:
+    build: ../nginx_image_store/
     ports:
     - "7082:80"
     volumes:
-      - /users/amarburg/src/image_store:/srv/image_store:ro
+      - /tmp/image_store:/srv/data:ro
