@@ -32,7 +32,6 @@ func RunOOIServer( bind string, port int ) (*stoppable_http_server.SLServer) {
 	lazycache.RegisterDefaultHandlers()
 	lazycache.AddMirror(OOIRawDataRootURL)
 
-	// Mirror copy of Local Nginx re-publishing /data
 	lazycache.AddMirror( "http://nginx_data/" )
 
 	// Berna-specific configuration (hardcoded for now)

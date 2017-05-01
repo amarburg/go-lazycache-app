@@ -10,6 +10,15 @@ services:
     links:
       - nginx_data
       - nginx_image_store
+  lazycache_nocache:
+    build: ../lazycache_nocache/
+    ports:
+      - "9080:8080"
+    volumes:
+      - /Users/aaron/workspace/go/src/github.com/amarburg/go-lazyfs-testfiles:/data
+    links:
+      - nginx_data
+      - nginx_image_store
   nginx_data:
     build: ../nginx_data/
     ports:
