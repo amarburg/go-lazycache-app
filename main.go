@@ -31,8 +31,18 @@ func RunOOIServer( bind string, port int ) (*stoppable_http_server.SLServer) {
 
 	lazycache.RegisterDefaultHandlers()
 	lazycache.AddMirror(OOIRawDataRootURL)
+		// lazycache.AddMirror( "http://localhost:7081/" )
 
-		lazycache.AddMirror( "http://localhost:7081/" )
+	lazycache.AddMirror( "http://nginx_data/" )
+
+	// Berna-specific configuration (hardcoded for now)
+	fs,err := lazycache.OpenLocalFS("/data")
+
+	if err != nil {
+		panic(fmt.Sprintf("Error opening Local File Source: %s", err.Error()))
+	}
+
+	lazycache.MakeRootNode(fs, fmt.Sprintf("/v1/berna%s/",fs.Path) )
 
 	return server
 }
