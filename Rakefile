@@ -17,6 +17,13 @@ task :test => :build do
   sh(*%w( go test -tags integration ))
 end
 
+task :profile do
+  sh "go test -cpuprofile cpu_profile.out -tags profile -run TestOOIRootImageDecode -count 20"
+  sh "go tool pprof -svg go-lazycache-app.test cpu_profile.out > cpu_profile.svg"
+  sh "go tool pprof -top go-lazycache-app.test cpu_profile.out"
+end
+
+
 namespace :run do
 
   task :local => :build do
