@@ -49,7 +49,7 @@ namespace :run do
             --port 8080
             --image-store local
             --image-store-root #{tmp_image_store}
-            --image-store-url http://localhost:7082/
+            --image-store-url http://localhost:9082/
             --bind 127.0.0.1 ))
   end
 

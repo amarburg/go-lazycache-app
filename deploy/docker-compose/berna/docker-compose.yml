@@ -10,15 +10,26 @@ services:
     links:
       - nginx_data
       - nginx_image_store
+
+  lazycache_nocache:
+    build: ../lazycache_nocache/
+    ports:
+      - "9080:8080"
+    volumes:
+      - /data:/data
+    links:
+      - nginx_data
+
   nginx_data:
     build: ../nginx_data/
     ports:
-    - "7081:80"
+    - "9081:80"
     volumes:
       - /data:/srv/data/:ro
+
   nginx_image_store:
     build: ../nginx_image_store/
     ports:
-    - "7082:80"
+    - "9082:80"
     volumes:
       - /tmp/image_store:/srv/data:ro
