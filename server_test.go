@@ -7,7 +7,7 @@ import "encoding/json"
 import "image/png"
 
 
-func JsonQuery( t *testing.T, url string, result interface{} ) {
+func jsonQuery( t *testing.T, url string, result interface{} ) {
   resp,err := http.Get(url)
   if err != nil || resp.StatusCode != 200 {
     t.Errorf("Got error response from local server")
@@ -29,7 +29,7 @@ func TestRoot(t *testing.T) {
   defer server.Stop()
 
   rootmap := make( map[string]interface{} )
-  JsonQuery(t, "http://127.0.0.1:8080/", &rootmap )
+  jsonQuery(t, "http://127.0.0.1:8080/", &rootmap )
 
   if len(rootmap) == 0 {
     t.Error("Zero-length RootMap")
@@ -41,7 +41,7 @@ func TestOOIRoot(t *testing.T) {
   defer server.Stop()
 
   rootmap := make( map[string]interface{} )
-  JsonQuery(t, "http://127.0.0.1:8080/v1/org/oceanobservatories/rawdata/files/", &rootmap )
+  jsonQuery(t, "http://127.0.0.1:8080/v1/org/oceanobservatories/rawdata/files/", &rootmap )
 
   if rootmap["Files"] == nil {
     t.Errorf("Path=\"Files\" doesn't exist")
@@ -58,7 +58,7 @@ func TestOOIRootMovieMetadata(t *testing.T) {
   defer server.Stop()
 
   metadata := make( map[string]interface{} )
-  JsonQuery(t,"http://127.0.0.1:8080/v1/org/oceanobservatories/rawdata/files/RS03ASHS/PN03B/06-CAMHDA301/2016/07/24/CAMHDA301-20160724T030000Z.mov", &metadata )
+  jsonQuery(t,"http://127.0.0.1:8080/v1/org/oceanobservatories/rawdata/files/RS03ASHS/PN03B/06-CAMHDA301/2016/07/24/CAMHDA301-20160724T030000Z.mov", &metadata )
 
   // Movie length known apriori
   if metadata["NumFrames"].(float64) != 25162  {

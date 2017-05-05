@@ -9,9 +9,11 @@ import (
 )
 
 
-var OOIRawDataRootURL = "https://rawdata.oceanobservatories.org/files/"
+
+var ooiRawDataRootURL = "https://rawdata.oceanobservatories.org/files/"
 
 
+// StartLazycacheServer starts a HTTP server at http://bind:port/ and registers default Lazycache handlers
 func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer {
 	http.DefaultServeMux = http.NewServeMux()
 
@@ -28,10 +30,11 @@ func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer
 	return server
 }
 
+// RunOOIServer start an Lazycache server and registers the standard Rutgers CI destination
 func RunOOIServer( bind string, port int ) (*stoppable_http_server.SLServer) {
 	server := StartLazycacheServer( bind, port )
 
-	lazycache.AddMirror(OOIRawDataRootURL)
+	lazycache.AddMirror(ooiRawDataRootURL)
 
 	// lazycache.AddMirror( "http://nginx_data/" )
 	//
