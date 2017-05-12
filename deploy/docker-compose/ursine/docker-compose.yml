@@ -25,7 +25,7 @@ services:
     ports:
     - "9081:80"
     volumes:
-      - /home/amarburg/data:/srv/data/:ro
+      -  /home/aaron/canine/workspace/camhd_analysis/rawdata_mirror/rawdata.oceanobservatories.org/files:/srv/data/:ro
 
   nginx_image_store:
     build: ../images/nginx_image_store/
