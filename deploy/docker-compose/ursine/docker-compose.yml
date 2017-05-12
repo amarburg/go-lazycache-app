@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /home/amarburg/data:/data
+      - /home/aaron/canine/workspace/camhd_analysis/rawdata_mirror/rawdata.oceanobservatories.org/files:/data:ro
       - /tmp/image_store:/srv/image_store
     links:
       - nginx_data
@@ -16,7 +16,7 @@ services:
     ports:
       - "9080:8080"
     volumes:
-      - /home/amarburg/data:/data
+      - /home/aaron/canine/workspace/camhd_analysis/rawdata_mirror/rawdata.oceanobservatories.org/files:/data
     links:
       - nginx_data
 

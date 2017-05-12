@@ -1,7 +1,7 @@
 version: '3'
 services:
   lazycache:
-    build: ../lazycache/
+    build: ../images/lazycache/
     ports:
       - "8080:8080"
     volumes:
@@ -12,7 +12,7 @@ services:
       - nginx_image_store
 
   lazycache_nocache:
-    build: ../lazycache_nocache/
+    build: ../images/lazycache_nocache/
     ports:
       - "9080:8080"
     volumes:
@@ -21,14 +21,14 @@ services:
       - nginx_data
 
   nginx_data:
-    build: ../nginx_data/
+    build: ../images/nginx_data/
     ports:
     - "9081:80"
     volumes:
       - /Users/aaron/workspace/CamHD_analysis/data:/srv/data/:ro
 
   nginx_image_store:
-    build: ../nginx_image_store/
+    build: ../images/nginx_image_store/
     ports:
     - "9082:80"
     volumes:
