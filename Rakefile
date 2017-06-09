@@ -10,19 +10,26 @@
 task :default => :test
 
 task :build do
-  sh(*%w( go build ))
+  sh "go build"
 end
 
 task :test => :build do
-  sh(*%w( go test -tags integration ))
+  sh "go test -tags integration"
 end
 
 task :profile do
-  sh "go test -cpuprofile cpu_profile.out -tags profile -run TestOOIRootImageDecode -count 20"
+  sh "go test -cpuprofile cpu_profile.out -tags profile -run TestOOIRootImageDecode -count 10"
   sh "go tool pprof -svg go-lazycache-app.test cpu_profile.out > cpu_profile.svg"
   sh "go tool pprof -top go-lazycache-app.test cpu_profile.out"
 end
 
+
+task :profile_server do
+  trap('SIGINT') {}
+  sh "./go-lazycache-app --cpuprofile cpu_profile.out"
+  sh "go tool pprof -svg go-lazycache-app cpu_profile.out > cpu_profile.svg"
+  sh "go tool pprof -top go-lazycache-app cpu_profile.out"
+end
 
 namespace :run do
 
