@@ -32,22 +32,12 @@ func StartLazycacheServer(bind string, port int) *stoppable_http_server.SLServer
 	return server
 }
 
-// RunOOIServer start an Lazycache server and registers the standard Rutgers CI destination
+// RunOOIServer starts an Lazycache server and registers the standard
+// Rutgers rawdata destination
 func RunOOIServer(bind string, port int) *stoppable_http_server.SLServer {
 	server := StartLazycacheServer(bind, port)
 
 	lazycache.AddMirror(ooiRawDataRootURL)
-
-	//lazycache.AddMirror( "http://localhost:9081/" )
-	//
-	// // Berna-specific configuration (hardcoded for now)
-	// fs,err := lazycache.OpenLocalFS("/data")
-	//
-	// if err != nil {
-	// 	panic(fmt.Sprintf("Error opening Local File Source: %s", err.Error()))
-	// }
-	//
-	// lazycache.MakeRootNode(fs, fmt.Sprintf("/v1/berna%s/",fs.Path) )
 
 	return server
 }
