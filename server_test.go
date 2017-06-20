@@ -65,6 +65,36 @@ func TestOOIRootMovieMetadata(t *testing.T) {
 	//TODO: image checks
 }
 
+
+func TestOOIRootMovieMetadataParallel(t *testing.T) {
+	server := RunOOIServer("127.0.0.1", 12345)
+	defer server.Stop()
+
+	results := make( chan float64  )
+
+	numClients := 100
+	for i := 0; i < numClients; i++ {
+		go func( out chan<- float64 ) {
+			metadata := make(map[string]interface{})
+			jsonQuery(t, "http://127.0.0.1:12345/v1/org/oceanobservatories/rawdata/files/RS03ASHS/PN03B/06-CAMHDA301/2016/07/24/CAMHDA301-20160724T030000Z.mov", &metadata)
+
+			out <- metadata["NumFrames"].(float64)
+		}( results )
+	}
+
+	for i := 0; i < numClients; i++ {
+		numFrames := <-results
+
+	// Movie length known apriori
+	if numFrames != 25162.0 {
+		t.Error("Incorrect metadata")
+	}
+}
+
+	//TODO: image checks
+}
+
+
 func TestOOIRootImageDecode(t *testing.T) {
 	server := RunOOIServer("127.0.0.1", 12345)
 	defer server.Stop()
